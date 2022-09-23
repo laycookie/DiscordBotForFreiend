@@ -1,18 +1,18 @@
-import {
-    ChatInputCommandInteraction,
-    CacheType,
-    PermissionFlagsBits,
-} from "discord.js";
+/* eslint-disable import/no-import-module-exports */
+import { PermissionFlagsBits } from "discord.js";
+import { commandI } from "../interfaces";
 
-const name = "ping";
-const description = "Replies with Pong!";
-const permissions: bigint[] = [PermissionFlagsBits.Administrator];
-
-const options: Map<string, string> = new Map();
-options.set("echo", "This will echo your message back to you.");
-
-const execute = (interaction: ChatInputCommandInteraction<CacheType>): void => {
-    interaction.reply({ content: "Pong!", ephemeral: true });
+const commandData: commandI = {
+    name: "ping",
+    description: "Replies with Pong!",
+    permissions: [PermissionFlagsBits.Administrator],
+    options: new Map(),
+    execute: (interaction) => {
+        interaction.reply({ content: "Pong!", ephemeral: true });
+    },
 };
+// create options for the command here
+commandData.options.set("echo", "This will echo your message back to you.");
 
-export { name, description, permissions, options, execute };
+const { name, description, permissions, options, execute } = commandData;
+export default { name, description, permissions, options, execute };

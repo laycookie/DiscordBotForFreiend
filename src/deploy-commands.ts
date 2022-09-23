@@ -46,7 +46,7 @@ if (process.env.buildCommandsPublic.toLowerCase() === "true") {
 // ===prep to export basic command info to index===
 interface basicCommandInfo {
     name: string;
-    execute: (arg0: ChatInputCommandInteraction<CacheType>) => void;
+    execute: (interaction: ChatInputCommandInteraction<CacheType>) => void;
 }
 const commandsCode: basicCommandInfo[] = [];
 

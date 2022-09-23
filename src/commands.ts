@@ -1,24 +1,26 @@
-import { SlashCommandBuilder } from "discord.js";
+import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import fs from "fs";
 import { commandsCode } from "./deploy-commands";
+import { commandI } from "./interfaces";
 
 const commands: SlashCommandBuilder[] = [];
 
-for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
-    const command: string = fs.readdirSync("./src/commands")[i];
+for (let i = 0; i < fs.readdirSync("./src/command").length; i++) {
+    const commandFile: string = fs.readdirSync("./src/command")[i];
     const {
         name,
         description,
         permissions,
         options,
         execute,
-        // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
-    } = require(`./commands/${command}`);
+    }: // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
+    commandI = require(`./commands/${commandFile}`);
+
     commandsCode.push({ name, execute });
 
     if (name === undefined || description === undefined) {
         throw new Error(
-            `Please make sure that ${command} has a name and description.`,
+            `Please make sure that ${commandFile} has a name and description.`,
         );
     }
 
@@ -27,7 +29,9 @@ for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
         .setDescription(description);
 
     if (permissions) {
-        slashCommandBuild.addPermission(permissions);
+        slashCommandBuild.setDefaultMemberPermissions(
+            new PermissionsBitField(permissions).bitfield,
+        );
     }
 
     if (options) {
