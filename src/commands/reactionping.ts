@@ -4,6 +4,9 @@ import {
     SlashCommandBuilder,
     EmbedBuilder,
     AttachmentBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
 } from "discord.js";
 import fs from "fs";
 import { commandI } from "../interfaces";
@@ -40,15 +43,15 @@ const commandData: commandI = {
                     }
                     const attachment = new AttachmentBuilder(
                         `${pickImg(imgType)}.${sufix}`,
-                        { name: "image" },
+                        { name: `image.${sufix}` },
                     );
-                    console.log(attachment);
                     const embed = new EmbedBuilder()
                         .setColor(0x0099ff)
                         .setDescription(
                             `${interaction.user} ${action} ${userPing}!`,
                         )
-                        .setImage(`attachment://image`);
+                        .setImage(`attachment://image.${sufix}`);
+
                     await interaction.reply({
                         embeds: [embed],
                         files: [attachment],
@@ -72,29 +75,9 @@ const commandData: commandI = {
                     case null:
                         try {
                             if (Math.random() > 0.5) {
-                                try {
-                                    await interaction.reply({
-                                        content: `${interaction.user} ${action} ${userPing}!`,
-                                        files: [`${pickImg("img")}.png`],
-                                    });
-                                } catch (error) {
-                                    await interaction.reply({
-                                        content: `${interaction.user} ${action} ${userPing}!`,
-                                        files: [`${pickImg("gifs")}.gif`],
-                                    });
-                                }
+                                sendImg("gif");
                             } else {
-                                try {
-                                    await interaction.reply({
-                                        content: `${interaction.user} ${action} ${userPing}!`,
-                                        files: [`${pickImg("gifs")}.gif`],
-                                    });
-                                } catch (error) {
-                                    await interaction.reply({
-                                        content: `${interaction.user} ${action} ${userPing}!`,
-                                        files: [`${pickImg("img")}.png`],
-                                    });
-                                }
+                                sendImg("img");
                             }
                         } catch (error) {
                             interaction.reply({
