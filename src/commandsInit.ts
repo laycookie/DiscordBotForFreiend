@@ -23,7 +23,7 @@ for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
         description,
         permissions,
         execute,
-        initCommandOptions,
+        initOptions,
     }: // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
     commandI = require(`./commands/${commandFile}`);
 
@@ -59,8 +59,8 @@ for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
         );
     }
 
-    if (initCommandOptions !== undefined && initCommandOptions !== null) {
-        initCommandOptions(slashCommandBuild);
+    if (initOptions !== undefined && initOptions !== null) {
+        initOptions(slashCommandBuild);
     }
 
     commands.push(slashCommandBuild);
