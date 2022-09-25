@@ -32,6 +32,7 @@
         "class-methods-use-this": "off",
         "no-console": "off",
         "object-curly-newline": "off",
-        "no-bitwise": "off"
+        "no-bitwise": "off",
+        "no-continue": "off"
     }
 }

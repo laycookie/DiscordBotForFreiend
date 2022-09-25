@@ -1,14 +1,16 @@
 import fs from "fs";
-import { Routes, ChatInputCommandInteraction, CacheType } from "discord.js";
+import { Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
-import { commands } from "./commands";
+import { commands, commandsCode } from "./commandsInit";
 import "dotenv/config";
 
 // check that dotenv vals are set
 if (
     process.env.TOKEN === undefined ||
     process.env.clientId === undefined ||
-    process.env.guildId === undefined
+    process.env.guildId === undefined ||
+    process.env.removeCommands === undefined ||
+    process.env.removeCommandsPublic === undefined
 ) {
     throw new Error("Please set the TOKEN, guildId, and prefix in .env");
 }
@@ -20,9 +22,8 @@ if (process.env.buildCommandsPublic === undefined) {
 }
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
-
-if (process.env.buildCommands.toLowerCase() === "true") {
-    // ===REMOVING ALL COMMANDS===
+// ===REMOVING ALL COMMANDS===
+if (process.env.removeCommands.toLowerCase() === "true") {
     // for guild-based commands
     rest.put(
         Routes.applicationGuildCommands(
@@ -35,20 +36,13 @@ if (process.env.buildCommands.toLowerCase() === "true") {
         .catch(console.error);
 }
 // for global commands
-if (process.env.buildCommandsPublic.toLowerCase() === "true") {
+if (process.env.removeCommandsPublic.toLowerCase() === "true") {
     rest.put(Routes.applicationCommands(process.env.clientId), { body: [] })
         .then(() => {
             console.log("Successfully deleted all application commands.");
         })
         .catch(console.error);
 }
-
-// ===prep to export basic command info to index===
-interface basicCommandInfo {
-    name: string;
-    execute: (interaction: ChatInputCommandInteraction<CacheType>) => void;
-}
-const commandsCode: basicCommandInfo[] = [];
 
 // ===ADDING A NEW COMMAND===
 if (
@@ -64,7 +58,7 @@ if (
         { body: commands },
     )
         .then(() => {
-            console.log("Successfully registered application commands.");
+            console.log("Successfully registered guild commands.");
         })
         .catch(console.error);
 }
@@ -81,5 +75,4 @@ if (process.env.buildCommandsPublic.toLowerCase() === "true") {
         .catch(console.error);
 }
 
-// Exporting names and code of commands for use in index.ts
 export { commandsCode };
