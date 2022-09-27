@@ -4,9 +4,6 @@ import {
     SlashCommandBuilder,
     EmbedBuilder,
     AttachmentBuilder,
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
 } from "discord.js";
 import fs from "fs";
 import { commandI } from "../interfaces";

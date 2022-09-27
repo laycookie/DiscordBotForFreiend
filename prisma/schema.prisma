@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ServerSetting {
+    id              Int                 @id @default(autoincrement())
+    serverId        Int                 @unique
+    commandSettings CommandSettings?
+}
+
+model CommandSettings {
+    id              Int                 @id @default(autoincrement())
+    serverSettingId Int                 @unique
+    serverSetting   ServerSetting       @relation(fields: [serverSettingId], references: [id])
+    getRole         GetRole?
+}
+
+model GetRole {
+    id                  Int                 @id @default(autoincrement())
+    commandSettingsId   Int                 @unique
+    commandSettings     CommandSettings     @relation(fields: [commandSettingsId], references: [id])
+    roleId              Int
+    roleToChoose        RoleToChoose[]
+}
+
+model RoleToChoose {
+    id                  Int                 @id @default(autoincrement())
+    getRoleId           Int                 @unique
+    getRole             GetRole             @relation(fields: [getRoleId], references: [id])
+    roleId              Int
+    name                String
+    description         String
+    value               String
+}

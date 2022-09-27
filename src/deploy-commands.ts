@@ -1,4 +1,3 @@
-import fs from "fs";
 import { Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
 import { commands, commandsCode } from "./commandsInit";

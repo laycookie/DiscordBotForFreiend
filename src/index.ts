@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits } from "discord.js";
-import "dotenv/config";
 import fs from "fs";
+import "dotenv/config";
+import { dbExecute } from "../prisma/database";
 import { commandsCode } from "./deploy-commands";
 
 // Create a new client instance
@@ -9,6 +10,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 // When the client is ready, run this code (only once)
 client.once("ready", () => {
     console.log("Ready!");
+    dbExecute();
 
     client.on("interactionCreate", async (interaction) => {
         if (interaction.isChatInputCommand()) {
