@@ -22,4 +22,24 @@ commands folder stores all of the commands code, each file in there is requred t
 
 ### How to run
 
-Curently it is expected that as long as you have the node.js v16 installed you should be able to run the bot with `npm run dev` command. How ever you will need to create a `.env` file in the root of the project and add everything from `.env.example` file to it. You will also also need to generate a new db inside of `prisma` folder by running `npx prisma migrate dev --name init` in the root of the project.
+First in order to run your bot you need to make sure that you have node.js v16.x.x installed.
+
+Then you need to create a file called `.env` in the root of the project and add the following varibles to it:
+
+```env
+TOKEN=
+clientId=
+guildId=
+
+DATABASE_URL=
+
+# only true or false
+buildCommands=
+buildCommandsPublic=
+```
+
+You can also view those varibles in the `.env.example` file.
+
+After all the dependencies are installed and `.env` file is seted up you can generate a database by running `npx prisma migrate dev --name init` at the root folder of the project.
+
+Now just run `npm run dev` and the bot should be up and running.
