@@ -22,4 +22,4 @@ commands folder stores all of the commands code, each file in there is requred t
 
 ### How to run
 
-Curently it is expected that as long as you have the node.js v16 installed you should be able to run the bot with `npm run dev` command. How ever you will need to create a `.env` file in the root of the project and add everything from `.env.example` file to it. You will also also need to generate a new db inside of `prisma` folder by running `npx prisma migrate dev --name init`.
+Curently it is expected that as long as you have the node.js v16 installed you should be able to run the bot with `npm run dev` command. How ever you will need to create a `.env` file in the root of the project and add everything from `.env.example` file to it. You will also also need to generate a new db inside of `prisma` folder by running `npx prisma migrate dev --name init` in the root of the project.
