@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits } from "discord.js";
 import fs from "fs";
 import "dotenv/config";
 import { dbExecute } from "../prisma/database";
+import { scanServersDB } from "../prisma/dbScripts/scanServers";
 import { commandsCode } from "./deploy-commands";
 
 // Create a new client instance
@@ -15,6 +16,7 @@ client.once("ready", () => {
     client.on("interactionCreate", async (interaction) => {
         if (interaction.isChatInputCommand()) {
             const { commandName } = interaction;
+            scanServersDB();
 
             for (const command of commandsCode) {
                 if (commandName === command.name) {
