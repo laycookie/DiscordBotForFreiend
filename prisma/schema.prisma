@@ -12,7 +12,7 @@ datasource db {
 
 model ServerSetting {
     id              Int                 @id @default(autoincrement())
-    serverId        Int                 @unique
+    serverId        BigInt              @unique
     commandSettings CommandSettings?
 }
 

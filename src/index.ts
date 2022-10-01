@@ -1,22 +1,35 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import fs from "fs";
+import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
-import { dbExecute } from "../prisma/database";
-import { scanServersDB } from "../prisma/dbScripts/scanServers";
 import { commandsCode } from "./deploy-commands";
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const prisma = new PrismaClient();
 
 // When the client is ready, run this code (only once)
 client.once("ready", () => {
     console.log("Ready!");
-    dbExecute();
+
+    // This checks if all of the servers are in the database and if not it adds them there.
+    client.guilds.cache.forEach(async (guild) => {
+        const guildId = Number(guild.id);
+        if (guildId === null || guildId === undefined) {
+            throw Error("Something is wrong with the guild id.");
+        } else if (
+            await prisma.serverSetting
+                .findUnique({ where: { serverId: guildId } })
+                .then((server) => server === null)
+        ) {
+            console.log("Adding new server to database.", guildId);
+            await prisma.serverSetting.create({ data: { serverId: guildId } });
+        }
+    });
 
     client.on("interactionCreate", async (interaction) => {
         if (interaction.isChatInputCommand()) {
             const { commandName } = interaction;
-            scanServersDB();
 
             for (const command of commandsCode) {
                 if (commandName === command.name) {
@@ -41,6 +54,12 @@ client.once("ready", () => {
             }
         }
     });
+});
+
+client.on("guildCreate", async (guild) => {
+    const guildId = Number(guild.id);
+    console.log(guildId);
+    await prisma.serverSetting.create({ data: { serverId: guildId } });
 });
 
 // Login to Discord with your client's token
