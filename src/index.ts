@@ -23,7 +23,9 @@ client.once("ready", () => {
                 .then((server) => server === null)
         ) {
             console.log("Adding new server to database.", guildId);
-            await prisma.serverSetting.create({ data: { serverId: guildId } });
+            await prisma.serverSetting.create({
+                data: { serverId: guildId },
+            });
         }
     });
 
@@ -59,7 +61,9 @@ client.once("ready", () => {
 client.on("guildCreate", async (guild) => {
     const guildId = Number(guild.id);
     console.log(guildId);
-    await prisma.serverSetting.create({ data: { serverId: guildId } });
+    await prisma.serverSetting.create({
+        data: { serverId: guildId },
+    });
 });
 
 // Login to Discord with your client's token
