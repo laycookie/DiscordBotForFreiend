@@ -22,7 +22,7 @@ commands folder stores all of the commands code, each file in there is requred t
 
 ### How to run
 
-First in order to run your bot you need to make sure that you have node.js v16.x.x installed.
+First in order to run your bot you need to make sure that you have node.js v16.X installed.
 
 Then you need to create a file called `.env` in the root of the project and add the following varibles to it:
 
@@ -31,11 +31,14 @@ TOKEN=
 clientId=
 guildId=
 
+# Example of what I use DATABASE_URL="file:./db/dev.db"
 DATABASE_URL=
 
 # only true or false
 buildCommands=
+removeCommands=
 buildCommandsPublic=
+removeCommandsPublic=
 ```
 
 You can also view those varibles in the `.env.example` file.
