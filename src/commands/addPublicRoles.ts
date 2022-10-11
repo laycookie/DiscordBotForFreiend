@@ -9,13 +9,13 @@ const commandData: commandI = {
     permissions: [PermissionFlagsBits.Administrator],
     execute: async (interaction) => {
         const roletoAdd = interaction.options.getRole("chooserole");
-        const prisma = new PrismaClient();
-        interaction.reply({
+        await interaction.reply({
             content: `${roletoAdd} was added to public role list.`,
             ephemeral: true,
         });
 
         // === Database manipulations ===
+        const prisma = new PrismaClient();
 
         const DBserverData = await prisma.serverSetting.findFirst({
             where: { serverId: Number(interaction.guildId) },
@@ -33,6 +33,19 @@ const commandData: commandI = {
             return;
         }
 
+        const role = await prisma.roleToChoose.findFirst({
+            where: {
+                serverId: Number(DBserverData.id),
+                name: roletoAdd.name,
+                roleId: roletoAdd.id,
+            },
+        });
+
+        if (role !== null) {
+            await interaction.editReply("Role is already in the list.");
+            return;
+        }
+
         await prisma.roleToChoose.create({
             data: {
                 serverId: Number(DBserverData.id),
@@ -47,6 +60,7 @@ const commandData: commandI = {
             option.setDescription(
                 "Role that be added to the public roles list.",
             );
+            option.setRequired(true);
 
             return option;
         });
