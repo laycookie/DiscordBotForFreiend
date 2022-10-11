@@ -1,4 +1,3 @@
-/* eslint-disable import/no-import-module-exports */
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { PrismaClient } from "@prisma/client";
 import { commandI } from "../interfaces";
@@ -11,10 +10,35 @@ const commandData: commandI = {
     execute: async (interaction) => {
         const roletoAdd = interaction.options.getRole("chooserole");
         const prisma = new PrismaClient();
-        console.log(roletoAdd);
         interaction.reply({
             content: `${roletoAdd} was added to public role list.`,
             ephemeral: true,
+        });
+
+        // === Database manipulations ===
+
+        const DBserverData = await prisma.serverSetting.findFirst({
+            where: { serverId: Number(interaction.guildId) },
+        });
+
+        if (DBserverData === null) {
+            throw Error("Server data is null please investigate.");
+        }
+
+        if (roletoAdd?.name === undefined || roletoAdd?.id === undefined) {
+            interaction.reply({
+                content: "Role is undefined, please try again.",
+                ephemeral: true,
+            });
+            return;
+        }
+
+        await prisma.roleToChoose.create({
+            data: {
+                serverId: Number(DBserverData.id),
+                name: roletoAdd.name,
+                roleId: roletoAdd.id,
+            },
         });
     },
     initOptions: (slashCommandBuild: SlashCommandBuilder) => {

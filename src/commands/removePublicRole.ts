@@ -9,17 +9,45 @@ const commandData: commandI = {
         "Allows you to add a role to the public roles list, So users can choose it with rolemenu.",
     permissions: [PermissionFlagsBits.Administrator],
     execute: async (interaction) => {
-        const roletoAdd = interaction.options.getRole("chooserole");
+        const roletoRemove = interaction.options.getRole("roletoremove");
         const prisma = new PrismaClient();
-        console.log(roletoAdd);
-        interaction.reply({
-            content: `${roletoAdd} was added to public role list.`,
+        await interaction.reply({
+            content: `${roletoRemove} was added to public role list.`,
             ephemeral: true,
+        });
+
+        // === Database manipulations ===
+
+        const DBserverData = await prisma.serverSetting.findFirst({
+            where: { serverId: Number(interaction.guildId) },
+        });
+
+        if (DBserverData === null) {
+            throw Error("Server data is null please investigate.");
+        }
+
+        if (
+            roletoRemove?.name === undefined ||
+            roletoRemove?.id === undefined
+        ) {
+            await interaction.editReply({
+                content: "Role is undefined, please try again.",
+            });
+            // eslint-disable-next-line no-useless-return
+            return;
+        }
+
+        await prisma.roleToChoose.deleteMany({
+            where: {
+                serverId: Number(DBserverData.id),
+                name: roletoRemove.name,
+                roleId: roletoRemove.id,
+            },
         });
     },
     initOptions: (slashCommandBuild: SlashCommandBuilder) => {
         slashCommandBuild.addRoleOption((option) => {
-            option.setName("chooserole");
+            option.setName("roletoremove");
             option.setDescription(
                 "Role that be added to the public roles list.",
             );

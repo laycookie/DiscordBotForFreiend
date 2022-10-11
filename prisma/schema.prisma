@@ -13,30 +13,13 @@ datasource db {
 model ServerSetting {
     id              Int                 @id @default(autoincrement())
     serverId        BigInt              @unique
-    commandSettings CommandSettings?
-}
-
-model CommandSettings {
-    id              Int                 @id @default(autoincrement())
-    serverSettingId Int                 @unique
-    serverSetting   ServerSetting       @relation(fields: [serverSettingId], references: [id])
-    getRole         GetRole?
-}
-
-model GetRole {
-    id                  Int                 @id @default(autoincrement())
-    commandSettingsId   Int                 @unique
-    commandSettings     CommandSettings     @relation(fields: [commandSettingsId], references: [id])
-    roleId              Int
-    roleToChoose        RoleToChoose[]
+    roleToChoose    RoleToChoose[]
 }
 
 model RoleToChoose {
     id                  Int                 @id @default(autoincrement())
-    getRoleId           Int                 @unique
-    getRole             GetRole             @relation(fields: [getRoleId], references: [id])
-    roleId              Int
+    serverId            Int
+    getRole             ServerSetting       @relation(fields: [serverId], references: [id])
     name                String
-    description         String
-    value               String
+    roleId              String
 }
