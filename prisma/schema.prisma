@@ -21,5 +21,6 @@ model RoleToChoose {
     serverId            Int
     getRole             ServerSetting       @relation(fields: [serverId], references: [id])
     name                String
+    description         String
     roleId              String
 }

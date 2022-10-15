@@ -9,6 +9,7 @@ const commandData: commandI = {
     permissions: [PermissionFlagsBits.Administrator],
     execute: async (interaction) => {
         const roletoAdd = interaction.options.getRole("chooserole");
+        const roleDescription = interaction.options.getString("description");
         await interaction.reply({
             content: `${roletoAdd} was added to public role list.`,
             ephemeral: true,
@@ -46,13 +47,29 @@ const commandData: commandI = {
             return;
         }
 
-        await prisma.roleToChoose.create({
-            data: {
-                serverId: Number(DBserverData.id),
-                name: roletoAdd.name,
-                roleId: roletoAdd.id,
-            },
-        });
+        if (
+            roleDescription === undefined ||
+            roleDescription === null ||
+            roleDescription === ""
+        ) {
+            await prisma.roleToChoose.create({
+                data: {
+                    serverId: Number(DBserverData.id),
+                    name: roletoAdd.name,
+                    description: "Public role.",
+                    roleId: roletoAdd.id,
+                },
+            });
+        } else {
+            await prisma.roleToChoose.create({
+                data: {
+                    serverId: Number(DBserverData.id),
+                    name: roletoAdd.name,
+                    description: roleDescription,
+                    roleId: roletoAdd.id,
+                },
+            });
+        }
     },
     initOptions: (slashCommandBuild: SlashCommandBuilder) => {
         slashCommandBuild.addRoleOption((option) => {
@@ -61,6 +78,13 @@ const commandData: commandI = {
                 "Role that be added to the public roles list.",
             );
             option.setRequired(true);
+
+            return option;
+        });
+        slashCommandBuild.addStringOption((option) => {
+            option.setName("description");
+            option.setDescription("Set a description for the role.");
+            option.setRequired(false);
 
             return option;
         });

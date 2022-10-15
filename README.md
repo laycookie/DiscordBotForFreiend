@@ -46,3 +46,7 @@ You can also view those varibles in the `.env.example` file.
 After all the dependencies are installed and `.env` file is seted up you can generate a database by running `npx prisma migrate dev --name init` at the root folder of the project.
 
 Now just run `npm run dev` and the bot should be up and running.
+
+#### Note to add properly later
+
+If you have a button, selectmenu or e.t.c you need to make sure that you `.setCustomId()` to the name of the event file.

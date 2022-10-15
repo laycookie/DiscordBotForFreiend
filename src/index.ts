@@ -39,7 +39,7 @@ client.once("ready", () => {
                     break;
                 }
             }
-        } else if (interaction.isButton()) {
+        } else if (interaction.isSelectMenu()) {
             const { customId } = interaction;
             for (let i = 0; i < fs.readdirSync("./src/events").length; i++) {
                 const eventFile: string = fs.readdirSync("./src/events")[i];

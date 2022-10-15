@@ -1,4 +1,5 @@
 /* eslint-disable import/no-import-module-exports */
+import { PrismaClient } from "@prisma/client";
 import {
     ActionRowBuilder,
     APISelectMenuOption,
@@ -15,22 +16,31 @@ const commandData: commandI = {
     description: "Lets user choose a role.",
     permissions: [PermissionFlagsBits.SendMessages],
     execute: async (interaction) => {
+        const prisma = new PrismaClient();
+
+        const DBserverData = await prisma.serverSetting.findFirst({
+            where: { serverId: Number(interaction.guildId) },
+        });
+
+        if (DBserverData === null) {
+            throw Error("Server data is null please investigate in getRole.ts");
+        }
+        const rolesAvalible = await prisma.roleToChoose.findMany({
+            where: { serverId: DBserverData.id },
+        });
+
         const options: RestOrArray<
             | SelectMenuOptionBuilder
             | SelectMenuComponentOptionData
             | APISelectMenuOption
-        > = [
-            {
-                label: "Select me",
-                description: "This is a description",
-                value: "first_option",
-            },
-            {
-                label: "You can select me too",
-                description: "This is also a description",
-                value: "second_option",
-            },
-        ];
+        > = [];
+        rolesAvalible.forEach((role) => {
+            options.push({
+                label: role.name,
+                description: role.description,
+                value: role.roleId,
+            });
+        });
         if (options.length === 0) {
             await interaction.reply({
                 content: "There are no roles you can choose.",
@@ -38,15 +48,19 @@ const commandData: commandI = {
             });
             return;
         }
+
+        // Add the options to the select menu
+
         const roleMenu: any = new ActionRowBuilder().addComponents(
             new SelectMenuBuilder()
-                .setCustomId("select")
+                .setCustomId("getRole")
                 .setPlaceholder("Nothing selected")
                 .setMinValues(1)
-                .setMaxValues(2)
+                .setMaxValues(options.length)
                 .addOptions(options),
         );
 
+        // Send the select menu to the interaction
         interaction.reply({
             content: "Choose a roll that you want to get.",
             components: [roleMenu],

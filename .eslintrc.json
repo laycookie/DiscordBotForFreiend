@@ -33,6 +33,7 @@
         "no-console": "off",
         "object-curly-newline": "off",
         "no-bitwise": "off",
-        "no-continue": "off"
+        "no-continue": "off",
+        "max-len": ["warn", { "code": 120 }]
     }
 }
