@@ -1,4 +1,4 @@
-import { GuildMember, Role, Interaction, CacheType } from "discord.js";
+import { GuildMember, Role } from "discord.js";
 
 function execute(interaction: any) {
     const user: GuildMember = interaction.guild.members.cache.get(
