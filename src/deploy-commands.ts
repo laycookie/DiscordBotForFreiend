@@ -75,4 +75,4 @@ if (process.env.buildCommandsPublic.toLowerCase() === "true") {
         .catch(console.error);
 }
 
-export { commandsCode };
+export { commandCodes };

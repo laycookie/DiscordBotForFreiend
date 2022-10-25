@@ -5,8 +5,11 @@
         "strict": true,
         "lib": ["esnext"],
         "esModuleInterop": true,
+        "moduleResolution": "node",
         "resolveJsonModule": true,
-        "module": "es2022",
-        "target": "es2017"17"
-    }
+        "module": "CommonJS",
+        "target": "ES2022"
+    },
+    "include": ["./src"],
+    "exclude": ["node_modules"]
 }

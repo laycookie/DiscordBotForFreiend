@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits } from "discord.js";
 import fs from "fs";
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
-import { commandsCode } from "./deploy-commands";
+import { commandCodes } from "./deploy-commands";
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -33,7 +33,7 @@ client.once("ready", () => {
         if (interaction.isChatInputCommand()) {
             const { commandName } = interaction;
 
-            for (const command of commandsCode) {
+            for (const command of commandCodes) {
                 if (commandName === command.name) {
                     command.execute(interaction);
                     break;
