@@ -6,7 +6,6 @@ import {
 } from "discord.js";
 import fs from "fs";
 import { commandI } from "./interfaces";
-// import { initOptions } from "./commandOptionsInit";
 
 interface basicCommandInfo {
     name: string;
@@ -16,16 +15,11 @@ interface basicCommandInfo {
 const commands: SlashCommandBuilder[] = [];
 const commandsCode: basicCommandInfo[] = [];
 
-for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
-    const commandFile: string = fs.readdirSync("./src/commands")[i];
-    const {
-        name,
-        description,
-        permissions,
-        execute,
-        initOptions,
-    }: // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
-    commandI = require(`./commands/${commandFile}`);
+const root = `./src/commands`;
+const commandsNameArr = fs.readdirSync(root);
+commandsNameArr.forEach(async (commandFile) => {
+    const { name, description, permissions, execute, initOptions }: commandI =
+        await import(`./commands/${commandFile}`);
 
     if (name === undefined) {
         throw new Error(
@@ -64,6 +58,6 @@ for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
     }
 
     commands.push(slashCommandBuild);
-}
+});
 
 export { commands, commandsCode };
