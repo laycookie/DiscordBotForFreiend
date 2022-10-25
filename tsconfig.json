@@ -6,7 +6,7 @@
         "lib": ["esnext"],
         "esModuleInterop": true,
         "resolveJsonModule": true,
-        "module": "commonjs",
-        "target": "ES6"
+        "module": "es2022",
+        "target": "es2017"17"
     }
 }
