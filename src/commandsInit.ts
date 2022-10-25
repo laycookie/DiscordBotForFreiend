@@ -16,8 +16,9 @@ interface basicCommandInfo {
 const commands: SlashCommandBuilder[] = [];
 const commandsCode: basicCommandInfo[] = [];
 
-for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
-    const commandFile: string = fs.readdirSync("./src/commands")[i];
+const root = `./dist/src/commands`;
+const commandss = fs.readdirSync(root);
+commands.forEach(async (commandFile) => {
     const {
         name,
         description,
@@ -25,7 +26,7 @@ for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
         execute,
         initOptions,
     }: // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
-    commandI = require(`./commands/${commandFile}`);
+    commandI = await import(`${root}/${commandFile}`);
 
     if (name === undefined) {
         throw new Error(
@@ -64,6 +65,6 @@ for (let i = 0; i < fs.readdirSync("./src/commands").length; i++) {
     }
 
     commands.push(slashCommandBuild);
-}
+});
 
 export { commands, commandsCode };

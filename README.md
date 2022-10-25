@@ -1,6 +1,6 @@
 # Discord bot
 
-### basic info
+### Basic info
 
 This is a simple discord bot with the following functionalities:
 
