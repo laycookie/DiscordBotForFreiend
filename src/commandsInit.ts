@@ -19,7 +19,8 @@ type InitCommandsResult = {
     commandCodes: basicCommandInfo[];
 };
 
-const commands: SlashCommandBuilder[] = [];
+const ROOT_DIR = "./src/commands";
+
 export default function initCommands(): InitCommandsResult {
     const commands: SlashCommandBuilder[] = [];
     const commandCodes: basicCommandInfo[] = [];
@@ -33,7 +34,8 @@ export default function initCommands(): InitCommandsResult {
             cmdFile = cmdFile.replace(".ts", ".js");
             commandData = await import(`./commands/${cmdFile}`);
         }
-        const { name, description, permissions, execute, initOptions } = commandData;
+        const { name, description, permissions, execute, initOptions } =
+            commandData;
 
         if (name === undefined) {
             throw new Error(
@@ -74,3 +76,4 @@ export default function initCommands(): InitCommandsResult {
         commands.push(slashCommandBuild);
     });
     return { commands, commandCodes };
+}
