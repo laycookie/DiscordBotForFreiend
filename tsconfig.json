@@ -8,7 +8,7 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "module": "CommonJS",
-        "target": "ES2022"
+        "target": "ES6"
     },
     "include": ["./src"],
     "exclude": ["node_modules"]

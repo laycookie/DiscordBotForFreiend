@@ -16,9 +16,9 @@ type InitCommandsResult = {
     commandCodes: basicCommandInfo[];
 };
 
-const ROOT_DIR = `./dist/src/commands`;
+const ROOT_DIR = `./src/commands`;
 
-export default async function initCommands(): Promise<InitCommandsResult> {
+export default function initCommands(): InitCommandsResult {
     const commands: SlashCommandBuilder[] = [];
     const commandCodes: basicCommandInfo[] = [];
     const cmdFiles = fs.readdirSync(ROOT_DIR);
@@ -29,8 +29,7 @@ export default async function initCommands(): Promise<InitCommandsResult> {
             permissions,
             execute,
             initOptions,
-        }: // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require
-        commandI = await import(`${ROOT_DIR}/${cmdFile}`);
+        }: commandI = await import(`${ROOT_DIR}/${cmdFile}`);
 
         if (name === undefined) {
             throw new Error(
