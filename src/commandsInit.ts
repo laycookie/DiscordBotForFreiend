@@ -1,3 +1,6 @@
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
+/* eslint-disable block-scoped-var */
 import {
     CacheType,
     ChatInputCommandInteraction,
@@ -23,13 +26,15 @@ export default function initCommands(): InitCommandsResult {
     const commandCodes: basicCommandInfo[] = [];
     const cmdFiles = fs.readdirSync(ROOT_DIR);
     cmdFiles.forEach(async (cmdFile) => {
-        const {
-            name,
-            description,
-            permissions,
-            execute,
-            initOptions,
-        }: commandI = await import(`${ROOT_DIR}/${cmdFile}`);
+        let commandData: commandI;
+        try {
+            commandData = await import(`./commands/${cmdFile}`);
+        } catch {
+            // eslint-disable-next-line no-param-reassign
+            cmdFile = cmdFile.replace(".ts", ".js");
+            commandData = await import(`./commands/${cmdFile}`);
+        }
+        const { name, description, permissions, execute, initOptions } = commandData;
 
         if (name === undefined) {
             throw new Error(
