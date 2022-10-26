@@ -19,8 +19,7 @@ type InitCommandsResult = {
     commandCodes: basicCommandInfo[];
 };
 
-const ROOT_DIR = `./src/commands`;
-
+const commands: SlashCommandBuilder[] = [];
 export default function initCommands(): InitCommandsResult {
     const commands: SlashCommandBuilder[] = [];
     const commandCodes: basicCommandInfo[] = [];
@@ -75,4 +74,3 @@ export default function initCommands(): InitCommandsResult {
         commands.push(slashCommandBuild);
     });
     return { commands, commandCodes };
-}
