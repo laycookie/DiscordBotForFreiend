@@ -7,8 +7,8 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "module": "CommonJS",
-        "target": "ES6"
+        "module": "ESNext",
+        "target": "ES2022"
     },
     "exclude": ["node_modules"]
 }

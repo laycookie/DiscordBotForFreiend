@@ -44,7 +44,8 @@ if (process.env.removeCommandsPublic.toLowerCase() === "true") {
 }
 
 // ===ADDING A NEW COMMAND===
-const { commands, commandCodes } = initCommands();
+const { commands, commandCodes } = await initCommands();
+console.log(commands);
 if (
     process.env.buildCommands.toLowerCase() === "true" &&
     process.env.buildCommandsPublic.toLowerCase() === "false"

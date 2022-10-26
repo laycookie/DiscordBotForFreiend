@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits } from "discord.js";
 import fs from "fs";
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
-import { commandCodes } from "./deploy-commands";
+import { commandCodes } from "./deploy-commands.js";
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
