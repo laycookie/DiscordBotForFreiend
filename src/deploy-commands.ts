@@ -1,6 +1,6 @@
 import { Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
-import initCommands from "./commandsInit";
+import initCommands from "./commandsInit.js";
 import "dotenv/config";
 
 // check that dotenv vals are set
@@ -45,7 +45,6 @@ if (process.env.removeCommandsPublic.toLowerCase() === "true") {
 
 // ===ADDING A NEW COMMAND===
 const { commands, commandCodes } = await initCommands();
-console.log(commands);
 if (
     process.env.buildCommands.toLowerCase() === "true" &&
     process.env.buildCommandsPublic.toLowerCase() === "false"
