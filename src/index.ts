@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import fs from "fs";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, ServerSetting } from "@prisma/client";
 import "dotenv/config";
 import { commandCodes } from "./deploy-commands.js";
 
@@ -20,7 +20,7 @@ client.once("ready", () => {
         } else if (
             await prisma.serverSetting
                 .findUnique({ where: { serverId: guildId } })
-                .then((server) => server === null)
+                .then((server: {id: number; serverId: bigint} | null) => server === null)
         ) {
             console.log("Adding new server to database.", guildId);
             await prisma.serverSetting.create({

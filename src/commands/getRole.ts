@@ -34,7 +34,7 @@ const commandData: commandI = {
             | SelectMenuComponentOptionData
             | APISelectMenuOption
         > = [];
-        rolesAvalible.forEach((role) => {
+        rolesAvalible.forEach((role: {name: string; description: string; roleId: string;}) => {
             options.push({
                 label: role.name,
                 description: role.description,

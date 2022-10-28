@@ -15,11 +15,11 @@
     "license": "ISC",
     "dependencies": {
         "@discordjs/rest": "^1.0.1",
-        "@prisma/client": "^4.3.1",
+        "@prisma/client": "^4.5.0",
         "discord.js": "^14.4.0",
         "dotenv": "^16.0.1",
         "eslint-config-airbnb": "^19.0.4",
-        "prisma": "^4.2.1"
+        "prisma": "^4.5.0"
     },
     "devDependencies": {
         "@types/node": "^18.7.3",
