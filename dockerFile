@@ -1,3 +1,4 @@
+# make sure you created .env file and set the variables
 # Made to work on khadas vim4
 FROM arm64v8/node:18-bullseye
 
