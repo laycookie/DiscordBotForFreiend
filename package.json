@@ -19,7 +19,7 @@
         "discord.js": "^14.6.0",
         "dotenv": "^16.0.3",
         "eslint-config-airbnb": "^19.0.4",
-        "prisma": "^4.6.1"
+        "prisma": "^4.8.1"
     },
     "devDependencies": {
         "@types/node": "^18.7.3",
